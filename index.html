@@ -285,7 +285,26 @@
             text-decoration: none;
             cursor: pointer;
         }
+        .modal-media-container {
+    position: relative;
+    width: 100%;
+    height: 0;
+    padding-bottom: 56.25%; /* 16:9 比例 */
+    overflow: hidden;
+}
 
+.modal-image, .modal-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.modal-video {
+    display: none;
+}
         .modal-image-container {
             position: relative;
             width: 100%;
@@ -293,11 +312,7 @@
             overflow: hidden;
         }
 
-        .modal-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
+
 
         .prev, .next {
     cursor: pointer;
@@ -378,31 +393,31 @@
             </div>
             <div class="project-gallery">
                 <div class="project-card" onclick="openModal(0)">
-                    <img src="https://via.placeholder.com/400x200.png?text=HealthyLife" alt="HealthyLife">
+                    <img src="templates/HealthyLife/img1.png" alt="HealthyLife">
                     <div class="content">
                         <h3>HealthyLife</h3>
-                        <p>預見健康，重塑人生</p>
+                        <p>與您一同預見健康，重塑人生</p>
                     </div>
                 </div>
                 <div class="project-card" onclick="openModal(1)">
-                    <img src="https://via.placeholder.com/400x200.png?text=區塊鏈解決方案" alt="區塊鏈解決方案">
+                    <img src="templates/健康小管家/img1.png" alt="健康小管家">
                     <div class="content">
                         <h3>健康小管家</h3>
                         <p>值得您信賴，健康ALL The Time</p>
                     </div>
                 </div>
                 <div class="project-card" onclick="openModal(2)">
-                    <img src="https://via.placeholder.com/400x200.png?text=AR教育平台" alt="AR教育平台">
+                    <img src="templates/美麗新生機/img1.png" alt="美麗新生機">
                     <div class="content">
                         <h3>美麗新生機 智能婦癌衛教LineBot</h3>
                         <p>婦癌無懼，健康自在</p>
                     </div>
                 </div>
                 <div class="project-card" onclick="openModal(3)">
-                    <img src="https://via.placeholder.com/400x200.png?text=AI助理" alt="AI助理">
+                    <img src="templates/SweetLine/img1.png" alt="SweetLine">
                     <div class="content">
-                        <h3>AI個人助理</h3>
-                        <p>開發智能AI助理，協助用戶管理日程、回答問題並提供個性化建議。</p>
+                        <h3>SweetLine 妊娠護航Bot</h3>
+                        <p>智慧孕程，甜蜜相隨</p>
                     </div>
                 </div>
                 <div class="project-card" onclick="openModal(4)">
@@ -414,7 +429,7 @@
                 </div>
             </div>
         </section>
-
+        <!--
         <section id="members">
             <div class="section-header">
                 <h2>團隊成員</h2>
@@ -450,6 +465,7 @@
                 </div>
             </div>
         </section>
+        -->
     </main>
     
     <div class="floating-menu">
@@ -467,10 +483,11 @@
     <div id="projectModal" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
-            <div class="modal-image-container">
+            <div class="modal-media-container">
                 <img class="modal-image" id="modalImage" src="" alt="Project Image">
-                <a class="prev" onclick="changeImage(-1)">&#10094;</a>
-                <a class="next" onclick="changeImage(1)">&#10095;</a>
+                <iframe class="modal-video" id="modalVideo" src="" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                <a class="prev" onclick="changeMedia(-1)">&#10094;</a>
+                <a class="next" onclick="changeMedia(1)">&#10095;</a>
             </div>
             <h3 id="modalTitle"></h3>
             <p id="modalDescription"></p>
@@ -525,34 +542,35 @@
                 title: "HealthyLife",
                 description: "HealthyLife DALY智能健康管理APP，導入創新的個人化DALY指數計算，不僅關注用戶當前的健康數據，還能預測健康狀況的發展趨勢。這個應用程序使用先進的人工智能算法來分析用戶的生活方式、飲食習慣和運動模式，從而提供個性化的健康建議和預防策略。",
                 images: [
-                    "https://via.placeholder.com/600x300.png?text=HealthyLife1",
+                    "templates/HealthyLife/img1.png",
                     "https://via.placeholder.com/600x300.png?text=HealthyLife2",
                     "https://via.placeholder.com/600x300.png?text=HealthyLife3"
-                ]
+                ],
+                video: "https://www.youtube.com/embed/tkVHM2rVTbE"
             },
             {
-                title: "區塊鏈供應鏈解決方案",
-                description: "我們的區塊鏈供應鏈解決方案利用先進的區塊鏈技術來提高供應鏈的透明度和可追溯性。這個系統能夠實時追蹤產品從原材料到最終消費者的整個流程，確保產品的真實性和品質。同時，它還能優化庫存管理，減少浪費，提高整體供應鏈的效率。",
+                title: "健康小管家",
+                description: "健康小管家 ，專為提高慢性病患的藥物治療遵從性而設計。透過先進的技術，自動識別和提取藥物資訊，簡化了服藥提醒的設定過程。為用戶提供藥物存量追蹤、健康諮詢，以及個性化的健康報告，強化用藥正確性與自我健康管理。此外，健康小管家還支援語音轉文字功能，讓用戶能夠方便地記錄醫師的建議和創建就診筆記，進而促進醫患間的溝通。其授權分享功能也讓照護者能夠輕鬆獲得患者的健康狀況更新，打造多方共贏局面。",
                 images: [
-                    "https://via.placeholder.com/600x300.png?text=區塊鏈1",
+                    "templates/健康小管家/img1.png",
                     "https://via.placeholder.com/600x300.png?text=區塊鏈2",
                     "https://via.placeholder.com/600x300.png?text=區塊鏈3"
                 ]
             },
             {
-                title: "AR教育平台",
+                title: "美麗新生機",
                 description: "我們的AR教育平台將擴增實境技術融入教育領域，為學生提供沉浸式的學習體驗。通過這個平台，學生可以與3D模型互動，進行虛擬實驗，或者探索歷史場景。這種創新的教學方式不僅能提高學生的興趣和參與度，還能幫助他們更好地理解和記憶複雜的概念。",
                 images: [
-                    "https://via.placeholder.com/600x300.png?text=AR教育1",
+                    "templates/美麗新生機/img1.png",
                     "https://via.placeholder.com/600x300.png?text=AR教育2",
                     "https://via.placeholder.com/600x300.png?text=AR教育3"
                 ]
             },
             {
-                title: "AI個人助理",
-                description: "我們的AI個人助理是一個智能化的日程管理和問答系統。它能夠學習用戶的習慣和偏好，自動安排日程，提醒重要事項，並根據用戶的查詢提供準確的信息和建議。這個助理還能與其他智能家居設備連接，實現全方位的生活管理和優化。",
+                title: "SweetLine 妊娠護航Bot",
+                description: "SweetLine是一款智慧孕婦健康管理 Linebot，提供全方位的孕期健康管理服務，包括智能健康管理、專業健康諮詢、情緒分析和社交分享等功能，幫助孕婦監測健康狀況，預防妊娠糖尿病、產前憂鬱症等疾病。",
                 images: [
-                    "https://via.placeholder.com/600x300.png?text=AI助理1",
+                    "templates/SweetLine/img1.png",
                     "https://via.placeholder.com/600x300.png?text=AI助理2",
                     "https://via.placeholder.com/600x300.png?text=AI助理3"
                 ]
@@ -569,34 +587,54 @@
         ];
 
         let currentProject = 0;
-        let currentImage = 0;
+let currentMediaIndex = 0;
 
-        function openModal(projectIndex) {
-            currentProject = projectIndex;
-            currentImage = 0;
-            modalTitle.textContent = projects[projectIndex].title;
-            modalDescription.textContent = projects[projectIndex].description;
-            modalImage.src = projects[projectIndex].images[0];
-            modal.style.display = "block";
-        }
+function openModal(projectIndex) {
+    currentProject = projectIndex;
+    currentMediaIndex = 0;
+    modalTitle.textContent = projects[projectIndex].title;
+    modalDescription.textContent = projects[projectIndex].description;
+    updateMediaDisplay();
+    modal.style.display = "block";
+}
 
-        closeBtn.onclick = function() {
-            modal.style.display = "none";
-        }
+function updateMediaDisplay() {
+    const project = projects[currentProject];
+    const isVideo = currentMediaIndex === project.images.length;
+    
+    document.getElementById("modalImage").style.display = isVideo ? "none" : "block";
+    document.getElementById("modalVideo").style.display = isVideo ? "block" : "none";
+    
+    if (isVideo) {
+        document.getElementById("modalVideo").src = project.video;
+    } else {
+        document.getElementById("modalImage").src = project.images[currentMediaIndex];
+    }
+}
 
-        window.onclick = function(event) {
-            if (event.target == modal) {
-                modal.style.display = "none";
-            }
-        }
+function changeMedia(direction) {
+    const project = projects[currentProject];
+    const totalMedia = project.images.length + (project.video ? 1 : 0);
+    
+    currentMediaIndex += direction;
+    if (currentMediaIndex >= totalMedia) currentMediaIndex = 0;
+    if (currentMediaIndex < 0) currentMediaIndex = totalMedia - 1;
+    
+    updateMediaDisplay();
+}
 
-        function changeImage(direction) {
-            currentImage += direction;
-            const images = projects[currentProject].images;
-            if (currentImage >= images.length) currentImage = 0;
-            if (currentImage < 0) currentImage = images.length - 1;
-            modalImage.src = images[currentImage];
-        }
+// 當模態框關閉時，停止影片播放
+closeBtn.onclick = function() {
+    modal.style.display = "none";
+    document.getElementById("modalVideo").src = "";
+}
+
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+        document.getElementById("modalVideo").src = "";
+    }
+}
     </script>
 </body>
 </html>
