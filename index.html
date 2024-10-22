@@ -1,435 +1,462 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>療心智能</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    />
     <style>
-        :root {
-            --primary-color: #3498db;
-            --secondary-color: #2c3e50;
-            --text-color: #333;
-            --bg-color: #ecf0f1;
-        }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Arial', sans-serif;
-            line-height: 1.6;
-            color: var(--text-color);
-            background-color: var(--bg-color);
-        }
-        
-        header {
-            background-color: var(--primary-color);
-            color: white;
-            text-align: center;
-            padding: 2rem 0;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-        
-        header h1 {
-            font-size: 2.5rem;
-            margin-bottom: 0.5rem;
-        }
-        
-        nav {
-            background-color: var(--secondary-color);
-            padding: 1rem 0;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            transition: transform 0.3s ease;
-        }
-        
-        nav.hidden {
-            transform: translateY(-100%);
-        }
-        
-        nav ul {
-            list-style-type: none;
-            display: flex;
-            justify-content: center;
-        }
-        
-        nav ul li {
-            margin: 0 1rem;
-        }
-        
-        nav ul li a {
-            color: white;
-            text-decoration: none;
-            font-weight: bold;
-            transition: color 0.3s ease;
-        }
-        
-        nav ul li a:hover {
-            color: var(--primary-color);
-        }
-        
-        main {
-            max-width: 1200px;
-            margin: 2rem auto;
-            padding: 0 2rem;
-        }
-        
-        section {
-            background-color: white;
-            margin-bottom: 2rem;
-            padding: 2rem;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-        
-        .section-header {
-            margin-bottom: 1rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 2px solid var(--primary-color);
-        }
-        
-        h2 {
-            color: var(--primary-color);
-        }
-        
-        .project-gallery, .member-gallery {
-            display: flex;
-            overflow-x: auto;
-            scroll-snap-type: x mandatory;
-            -webkit-overflow-scrolling: touch;
-            scrollbar-width: none;
-            -ms-overflow-style: none;
-            padding: 20px 0;
-            margin: -20px 0;
-        }
-        
-        .project-gallery::-webkit-scrollbar, .member-gallery::-webkit-scrollbar { 
-            display: none;
-        }
-        
-        .project-card, .member-card {
-            flex: 0 0 auto;
-            width: 300px;
-            margin-right: 20px;
-            scroll-snap-align: start;
-            background-color: white;
-            border-radius: 5px;
-            overflow: visible;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        
-        .project-card:last-child, .member-card:last-child {
-            margin-right: 0;
-        }
-        
-        .project-card:hover, .member-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 6px 15px rgba(0,0,0,0.15);
-        }
-        
-        .project-card img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-        }
-        
-        .member-card img {
-            width: 100%;
-            height: 300px;
-            object-fit: cover;
-        }
-        
-        .project-card .content, .member-card .content {
-            padding: 1rem;
-        }
-        
-        .project-card h3, .member-card h3 {
-            color: var(--primary-color);
-            margin-bottom: 0.5rem;
-        }
-        
-        ul {
-            list-style-type: none;
-            padding-left: 1rem;
-        }
-        
-        li {
-            margin-bottom: 0.5rem;
-            position: relative;
-            padding-left: 1.5rem;
-        }
-        
-        li::before {
-            content: '▹';
-            color: var(--primary-color);
-            position: absolute;
-            left: 0;
-        }
-        
-        footer {
-            background-color: var(--secondary-color);
-            color: white;
-            text-align: center;
-            padding: 1rem 0;
-            margin-top: 2rem;
-        }
+      :root {
+        --primary-color: #3498db;
+        --secondary-color: #2c3e50;
+        --text-color: #333;
+        --bg-color: #ecf0f1;
+      }
 
-        .floating-menu {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 1000;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.3s ease, visibility 0.3s ease;
-        }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
 
-        .floating-menu.visible {
-            opacity: 1;
-            visibility: visible;
-        }
+      body {
+        font-family: "Arial", sans-serif;
+        line-height: 1.6;
+        color: var(--text-color);
+        background-color: var(--bg-color);
+      }
 
-        .menu-button {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            background-color: var(--primary-color);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
-            transition: transform 0.3s ease;
-        }
+      header {
+        background-color: var(--primary-color);
+        color: white;
+        text-align: center;
+        padding: 2rem 0;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      }
 
-        .menu-button i {
-            color: white;
-            font-size: 24px;
-        }
+      header h1 {
+        font-size: 2.5rem;
+        margin-bottom: 0.5rem;
+      }
 
-        .menu-items {
-            position: absolute;
-            top: 70px;
-            right: 0;
-            background-color: white;
-            border-radius: 5px;
-            padding: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            display: none;
-            width: 200px;
-            height: 200px;
-        }
+      nav {
+        background-color: var(--secondary-color);
+        padding: 1rem 0;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        transition: transform 0.3s ease;
+      }
 
-        .menu-item {
-            display: flex;
-            align-items: center;
-            height: 25%;
-            padding: 0 10px;
-            color: var(--text-color);
-            text-decoration: none;
-            transition: background-color 0.3s ease;
-        }
+      nav.hidden {
+        transform: translateY(-100%);
+      }
 
-        .menu-item:hover {
-            background-color: var(--bg-color);
-        }
+      nav ul {
+        list-style-type: none;
+        display: flex;
+        justify-content: center;
+      }
 
-        .menu-open .menu-button {
-            transform: rotate(45deg);
-        }
+      nav ul li {
+        margin: 0 1rem;
+      }
 
-        .menu-open .menu-items {
-            display: block;
-        }
+      nav ul li a {
+        color: white;
+        text-decoration: none;
+        font-weight: bold;
+        transition: color 0.3s ease;
+      }
 
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1001;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0,0,0,0.4);
-        }
+      nav ul li a:hover {
+        color: var(--primary-color);
+      }
 
-        .modal-content {
-            background-color: #fefefe;
-            margin: 15% auto;
-            padding: 20px;
-            border: 1px solid #888;
-            width: 80%;
-            max-width: 600px;
-            border-radius: 5px;
-            position: relative;
-        }
+      main {
+        max-width: 1200px;
+        margin: 2rem auto;
+        padding: 0 2rem;
+      }
 
-        .close {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-            cursor: pointer;
-        }
+      section {
+        background-color: white;
+        margin-bottom: 2rem;
+        padding: 2rem;
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      }
 
-        .close:hover,
-        .close:focus {
-            color: #000;
-            text-decoration: none;
-            cursor: pointer;
-        }
-        .modal-media-container {
-    position: relative;
-    width: 100%;
-    height: 0;
-    padding-bottom: 56.25%; /* 16:9 比例 */
-    overflow: hidden;
-}
+      .section-header {
+        margin-bottom: 1rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 2px solid var(--primary-color);
+      }
 
-.modal-image, .modal-video {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
+      h2 {
+        color: var(--primary-color);
+      }
 
-.modal-video {
-    display: none;
-}
-        .modal-image-container {
-            position: relative;
-            width: 100%;
-            height: 300px;
-            overflow: hidden;
-        }
+      .project-gallery,
+      .member-gallery {
+        display: flex;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+        padding: 20px 0;
+        margin: -20px 0;
+      }
 
+      .project-gallery::-webkit-scrollbar,
+      .member-gallery::-webkit-scrollbar {
+        display: none;
+      }
 
+      .project-card,
+      .member-card {
+        flex: 0 0 auto;
+        width: 300px;
+        margin-right: 20px;
+        scroll-snap-align: start;
+        background-color: white;
+        border-radius: 5px;
+        overflow: visible;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
 
-        .prev, .next {
-    cursor: pointer;
-    position: absolute;
-    top: 50%;
-    width: auto;
-    padding: 16px;
-    margin-top: -22px;
-    color: white;
-    font-weight: bold;
-    font-size: 18px;
-    transition: 0.6s ease;
-    border-radius: 0 3px 3px 0;
-    user-select: none;
-    background-color: rgba(0,0,0,0.8);
-}
+      .project-card:last-child,
+      .member-card:last-child {
+        margin-right: 0;
+      }
 
-.next {
-    right: 0;
-    border-radius: 3px 0 0 3px;
-}
+      .project-card:hover,
+      .member-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+      }
 
-.prev {
-    left: 0;
-    border-radius: 0 3px 3px 0;
-}
+      .project-card img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+      }
 
-.prev:hover, .next:hover {
-    background-color: rgba(0,0,0,0.9);
-}
+      .member-card img {
+        width: 100%;
+        height: 300px;
+        object-fit: cover;
+      }
+
+      .project-card .content,
+      .member-card .content {
+        padding: 1rem;
+      }
+
+      .project-card h3,
+      .member-card h3 {
+        color: var(--primary-color);
+        margin-bottom: 0.5rem;
+      }
+
+      ul {
+        list-style-type: none;
+        padding-left: 1rem;
+      }
+
+      li {
+        margin-bottom: 0.5rem;
+        position: relative;
+        padding-left: 1.5rem;
+      }
+
+      li::before {
+        content: "▹";
+        color: var(--primary-color);
+        position: absolute;
+        left: 0;
+      }
+
+      footer {
+        background-color: var(--secondary-color);
+        color: white;
+        text-align: center;
+        padding: 1rem 0;
+        margin-top: 2rem;
+      }
+
+      .floating-menu {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 1000;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+      }
+
+      .floating-menu.visible {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      .menu-button {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background-color: var(--primary-color);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        transition: transform 0.3s ease;
+      }
+
+      .menu-button i {
+        color: white;
+        font-size: 24px;
+      }
+
+      .menu-items {
+        position: absolute;
+        top: 70px;
+        right: 0;
+        background-color: white;
+        border-radius: 5px;
+        padding: 10px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        display: none;
+        width: 200px;
+      }
+
+      .menu-item {
+        display: flex;
+        align-items: center;
+        padding: 10px;
+        color: var(--text-color);
+        text-decoration: none;
+        transition: background-color 0.3s ease;
+      }
+
+      .menu-item:hover {
+        background-color: var(--bg-color);
+      }
+
+      .menu-open .menu-button {
+        transform: rotate(45deg);
+      }
+
+      .menu-open .menu-items {
+        display: block;
+      }
+
+      .modal {
+        display: none;
+        position: fixed;
+        z-index: 1001;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.4);
+      }
+
+      .modal-content {
+        width: 90%;
+        height: 90vh;
+        margin: 5% auto;
+        display: flex;
+        flex-direction: column;
+        background-color: white;
+        border-radius: 10px;
+        overflow: hidden;
+        position: relative;
+      }
+
+      .modal-media-container {
+        flex: 1;
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+        background-color: #f0f0f0;
+        padding: 0 60px;
+      }
+
+      .modal-image,
+      .modal-video {
+        max-width: 100%;
+        max-height: 100%;
+        width: auto;
+        height: auto;
+        object-fit: contain;
+      }
+
+      .modal-video {
+        position: absolute;
+        top: 0;
+        left: 60px;
+        right: 60px;
+        bottom: 0;
+        width: calc(100% - 120px);
+        height: 100%;
+      }
+
+      .prev,
+      .next {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 50px;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: rgba(0, 0, 0, 0.5);
+        color: white;
+        font-size: 24px;
+        border-radius: 25px;
+        transition: 0.3s ease;
+        user-select: none;
+        text-decoration: none;
+        z-index: 2;
+      }
+
+      .prev {
+        left: 5px;
+      }
+      .next {
+        right: 5px;
+      }
+
+      .prev:hover,
+      .next:hover {
+        background-color: rgba(0, 0, 0, 0.8);
+      }
+
+      .modal-info {
+        padding: 20px;
+        color: black;
+        background-color: white;
+      }
+
+      .close {
+        position: absolute;
+        top: 10px;
+        right: 20px;
+        color: black;
+        font-size: 35px;
+        font-weight: bold;
+        z-index: 3;
+      }
+
+      .close:hover,
+      .close:focus {
+        color: #555;
+        text-decoration: none;
+        cursor: pointer;
+      }
+
+      body.modal-open {
+        overflow: hidden;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <header>
-        <h1>療心智能</h1>
-        <p>用智慧預防，用關懷守護，療心智能呵護每一刻。</p>
+      <h1>療心智能</h1>
+      <p>用智慧預防，用關懷守護，療心智能呵護每一刻。</p>
     </header>
-    
+
     <nav>
-        <ul>
-            <li><a href="#vision">團隊願景</a></li>
-            <li><a href="#experience">團隊經驗</a></li>
-            <li><a href="#projects">團隊項目</a></li>
-            <li><a href="#members">團隊成員</a></li>
-        </ul>
+      <ul>
+        <li><a href="#vision">團隊願景</a></li>
+        <li><a href="#experience">團隊經驗</a></li>
+        <li><a href="#projects">團隊項目</a></li>
+        <li><a href="#members">團隊成員</a></li>
+      </ul>
     </nav>
-    
+
     <main>
-        <section id="vision">
-            <div class="section-header">
-                <h2>團隊願景</h2>
-            </div>
-            <p>療心智能團隊長期深耕於健康促進與預防醫學的相關領域，過去常聚焦於銀髮族群的健康需求，推出長照媒合照護平台、遊戲化失智預防 APP、
-                服藥提醒 Linebot 等產品服務，並參與競賽榮獲各項殊榮，同時也參與過多項孵化計畫，累積豐富的實務經驗。
-                致力於個人化、智能化的服務開發，針對國內各類族群如慢性病患、長者、婦癌患者，解決其醫療與照護需求，提升全民健康意識
-</p>
-        </section>
+      <section id="vision">
+        <div class="section-header">
+          <h2>團隊願景</h2>
+        </div>
+        <p>
+          療心智能團隊長期深耕於健康促進與預防醫學的相關領域，過去常聚焦於銀髮族群的健康需求，推出長照媒合照護平台、遊戲化失智預防
+          APP、 服藥提醒 Linebot
+          等產品服務，並參與競賽榮獲各項殊榮，同時也參與過多項孵化計畫，累積豐富的實務經驗。
+          致力於個人化、智能化的服務開發，針對國內各類族群如慢性病患、長者、婦癌患者，解決其醫療與照護需求，提升全民健康意識
+        </p>
+      </section>
 
-        <section id="experience">
-            <div class="section-header">
-                <h2>團隊經驗</h2>
-            </div>
-            <ul>
-                <li>2024 第三屆保誠創新智造所 評審特別獎</li>
-                <li>2024 NTUE校園創業競賽(11th) 潛力獎</li>
-                <li>2024 第7屆致青春‧創未來全國選拔大賽 優選 </li>
-                <li>2024 第八屆全國大專校院「healthy-×-happy」創新創業競賽 佳作</li>
-                <li>2024 第四屆捷運盃黑客松-尋找黑捷客uiux設計賽 黑捷客獎</li>
-                <li>2023 GSS AI Chatbot Hackathon 情有獨鍾獎</li>
-                <li>2022 GSS AI Chatbot Hackathon 亞軍</li>
-                <li>2022 全國健康科技創新創意競賽 季軍</li>
-            </ul>
-        </section>
+      <section id="experience">
+        <div class="section-header">
+          <h2>團隊經驗</h2>
+        </div>
+        <ul>
+          <li>2024 第三屆保誠創新智造所 評審特別獎</li>
+          <li>2024 NTUE校園創業競賽(11th) 潛力獎</li>
+          <li>2024 第7屆致青春‧創未來全國選拔大賽 優選</li>
+          <li>2024 第八屆全國大專校院「healthy-×-happy」創新創業競賽 佳作</li>
+          <li>2024 第四屆捷運盃黑客松-尋找黑捷客uiux設計賽 黑捷客獎</li>
+          <li>2023 GSS AI Chatbot Hackathon 情有獨鍾獎</li>
+          <li>2022 GSS AI Chatbot Hackathon 亞軍</li>
+          <li>2022 全國健康科技創新創意競賽 季軍</li>
+        </ul>
+      </section>
 
-        <section id="projects">
-            <div class="section-header">
-                <h2>團隊項目</h2>
+      <section id="projects">
+        <div class="section-header">
+          <h2>團隊項目</h2>
+        </div>
+        <div class="project-gallery">
+          <div class="project-card" onclick="openModal(0)">
+            <img src="templates/HealthyLife/img1.png" alt="HealthyLife" />
+            <div class="content">
+              <h3>HealthyLife</h3>
+              <p>與您一同預見健康，重塑人生</p>
             </div>
-            <div class="project-gallery">
-                <div class="project-card" onclick="openModal(0)">
-                    <img src="templates/HealthyLife/img1.png" alt="HealthyLife">
-                    <div class="content">
-                        <h3>HealthyLife</h3>
-                        <p>與您一同預見健康，重塑人生</p>
-                    </div>
-                </div>
-                <div class="project-card" onclick="openModal(1)">
-                    <img src="templates/健康小管家/img1.png" alt="健康小管家">
-                    <div class="content">
-                        <h3>健康小管家</h3>
-                        <p>值得您信賴，健康ALL The Time</p>
-                    </div>
-                </div>
-                <div class="project-card" onclick="openModal(2)">
-                    <img src="templates/美麗新生機/img1.png" alt="美麗新生機">
-                    <div class="content">
-                        <h3>美麗新生機 智能婦癌衛教LineBot</h3>
-                        <p>婦癌無懼，健康自在</p>
-                    </div>
-                </div>
-                <div class="project-card" onclick="openModal(3)">
-                    <img src="templates/SweetLine/img1.png" alt="SweetLine">
-                    <div class="content">
-                        <h3>SweetLine 妊娠護航Bot</h3>
-                        <p>智慧孕程，甜蜜相隨</p>
-                    </div>
-                </div>
-                <div class="project-card" onclick="openModal(4)">
-                    <img src="https://via.placeholder.com/400x200.png?text=綠能解決方案" alt="綠能解決方案">
-                    <div class="content">
-                        <h3>綠能管理系統</h3>
-                        <p>設計智能能源管理系統，優化能源使用，減少碳排放，促進可持續發展。</p>
-                    </div>
-                </div>
+          </div>
+          <div class="project-card" onclick="openModal(1)">
+            <img src="templates/健康小管家/img1.png" alt="健康小管家" />
+            <div class="content">
+              <h3>健康小管家</h3>
+              <p>值得您信賴，健康ALL The Time</p>
             </div>
-        </section>
-        <!--
+          </div>
+          <div class="project-card" onclick="openModal(2)">
+            <img src="templates/美麗新生機/img1.png" alt="美麗新生機" />
+            <div class="content">
+              <h3>美麗新生機 智能婦癌衛教LineBot</h3>
+              <p>婦癌無懼，健康自在</p>
+            </div>
+          </div>
+          <div class="project-card" onclick="openModal(3)">
+            <img src="templates/SweetLine/img1.png" alt="SweetLine" />
+            <div class="content">
+              <h3>SweetLine 妊娠護航Bot</h3>
+              <p>智慧孕程，甜蜜相隨</p>
+            </div>
+          </div>
+          <div class="project-card" onclick="openModal(4)">
+            <img src="templates/智慧飲食配/img1.png" alt="綠能解決方案" />
+            <div class="content">
+              <h3>智慧飲食配</h3>
+              <p>為您量身打造的健康餐盒外送服務</p>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!--
         <section id="members">
             <div class="section-header">
                 <h2>團隊成員</h2>
@@ -467,174 +494,229 @@
         </section>
         -->
     </main>
-    
+
     <div class="floating-menu">
-        <div class="menu-button">
-            <i class="fas fa-bars"></i>
-        </div>
-        <div class="menu-items">
-            <a href="#vision" class="menu-item">團隊願景</a>
-            <a href="#experience" class="menu-item">團隊經驗</a>
-            <a href="#projects" class="menu-item">團隊項目</a>
-            <a href="#members" class="menu-item">團隊成員</a>
-        </div>
+      <div class="menu-button">
+        <i class="fas fa-bars"></i>
+      </div>
+      <div class="menu-items">
+        <a href="#vision" class="menu-item">團隊願景</a>
+        <a href="#experience" class="menu-item">團隊經驗</a>
+        <a href="#projects" class="menu-item">團隊項目</a>
+        <a href="#members" class="menu-item">團隊成員</a>
+      </div>
     </div>
 
     <div id="projectModal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <div class="modal-media-container">
-                <img class="modal-image" id="modalImage" src="" alt="Project Image">
-                <iframe class="modal-video" id="modalVideo" src="" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-                <a class="prev" onclick="changeMedia(-1)">&#10094;</a>
-                <a class="next" onclick="changeMedia(1)">&#10095;</a>
-            </div>
-            <h3 id="modalTitle"></h3>
-            <p id="modalDescription"></p>
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <div class="modal-media-container">
+          <img class="modal-image" id="modalImage" src="" alt="Project Image" />
+          <iframe
+            class="modal-video"
+            id="modalVideo"
+            src=""
+            frameborder="0"
+            allow="autoplay; encrypted-media"
+            allowfullscreen
+          ></iframe>
+          <a class="prev" onclick="changeMedia(-1)">&#10094;</a>
+          <a class="next" onclick="changeMedia(1)">&#10095;</a>
         </div>
+        <div class="modal-info">
+          <h3 id="modalTitle"></h3>
+          <p id="modalDescription"></p>
+        </div>
+      </div>
     </div>
 
     <footer>
-        <p>&copy; 2024 療心智能 版權所有</p>
+      <p>&copy; 2024 療心智能 版權所有</p>
     </footer>
 
     <script>
-        const nav = document.querySelector('nav');
-        const floatingMenu = document.querySelector('.floating-menu');
-        let lastScrollTop = 0;
+      const nav = document.querySelector("nav");
+      const floatingMenu = document.querySelector(".floating-menu");
+      let lastScrollTop = 0;
 
-        window.addEventListener('scroll', () => {
-            let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-            if (scrollTop > lastScrollTop && scrollTop > nav.offsetHeight) {
-                nav.classList.add('hidden');
-                floatingMenu.classList.add('visible');
-            } else if (scrollTop < lastScrollTop && scrollTop <= nav.offsetHeight) {
-                nav.classList.remove('hidden');
-                floatingMenu.classList.remove('visible');
-            }
-            lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
-        }, false);
+      window.addEventListener(
+        "scroll",
+        () => {
+          let scrollTop =
+            window.pageYOffset || document.documentElement.scrollTop;
+          if (scrollTop > lastScrollTop && scrollTop > nav.offsetHeight) {
+            nav.classList.add("hidden");
+            floatingMenu.classList.add("visible");
+          } else if (
+            scrollTop < lastScrollTop &&
+            scrollTop <= nav.offsetHeight
+          ) {
+            nav.classList.remove("hidden");
+            floatingMenu.classList.remove("visible");
+          }
+          lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+        },
+        false
+      );
 
-        document.querySelector('.menu-button').addEventListener('click', function() {
-            floatingMenu.classList.toggle('menu-open');
+      document
+        .querySelector(".menu-button")
+        .addEventListener("click", function () {
+          floatingMenu.classList.toggle("menu-open");
         });
 
-        document.querySelectorAll('.menu-item').forEach(item => {
-            item.addEventListener('click', function() {
-                floatingMenu.classList.remove('menu-open');
-            });
+      document.querySelectorAll(".menu-item").forEach((item) => {
+        item.addEventListener("click", function () {
+          floatingMenu.classList.remove("menu-open");
         });
+      });
 
-        document.addEventListener('click', function(event) {
-            if (!floatingMenu.contains(event.target) && floatingMenu.classList.contains('menu-open')) {
-                floatingMenu.classList.remove('menu-open');
-            }
-        });
+      document.addEventListener("click", function (event) {
+        if (
+          !floatingMenu.contains(event.target) &&
+          floatingMenu.classList.contains("menu-open")
+        ) {
+          floatingMenu.classList.remove("menu-open");
+        }
+      });
 
-        const modal = document.getElementById("projectModal");
-        const modalImage = document.getElementById("modalImage");
-        const modalTitle = document.getElementById("modalTitle");
-        const modalDescription = document.getElementById("modalDescription");
-        const closeBtn = document.getElementsByClassName("close")[0];
+      const modal = document.getElementById("projectModal");
+      const modalImage = document.getElementById("modalImage");
+      const modalTitle = document.getElementById("modalTitle");
+      const modalDescription = document.getElementById("modalDescription");
+      const closeBtn = document.getElementsByClassName("close")[0];
 
-        const projects = [
-            {
-                title: "HealthyLife",
-                description: "HealthyLife DALY智能健康管理APP，導入創新的個人化DALY指數計算，不僅關注用戶當前的健康數據，還能預測健康狀況的發展趨勢。這個應用程序使用先進的人工智能算法來分析用戶的生活方式、飲食習慣和運動模式，從而提供個性化的健康建議和預防策略。",
-                images: [
-                    "templates/HealthyLife/img1.png",
-                    "https://via.placeholder.com/600x300.png?text=HealthyLife2",
-                    "https://via.placeholder.com/600x300.png?text=HealthyLife3"
-                ],
-                video: "https://www.youtube.com/embed/tkVHM2rVTbE"
-            },
-            {
-                title: "健康小管家",
-                description: "健康小管家 ，專為提高慢性病患的藥物治療遵從性而設計。透過先進的技術，自動識別和提取藥物資訊，簡化了服藥提醒的設定過程。為用戶提供藥物存量追蹤、健康諮詢，以及個性化的健康報告，強化用藥正確性與自我健康管理。此外，健康小管家還支援語音轉文字功能，讓用戶能夠方便地記錄醫師的建議和創建就診筆記，進而促進醫患間的溝通。其授權分享功能也讓照護者能夠輕鬆獲得患者的健康狀況更新，打造多方共贏局面。",
-                images: [
-                    "templates/健康小管家/img1.png",
-                    "https://via.placeholder.com/600x300.png?text=區塊鏈2",
-                    "https://via.placeholder.com/600x300.png?text=區塊鏈3"
-                ]
-            },
-            {
-                title: "美麗新生機",
-                description: "我們的AR教育平台將擴增實境技術融入教育領域，為學生提供沉浸式的學習體驗。通過這個平台，學生可以與3D模型互動，進行虛擬實驗，或者探索歷史場景。這種創新的教學方式不僅能提高學生的興趣和參與度，還能幫助他們更好地理解和記憶複雜的概念。",
-                images: [
-                    "templates/美麗新生機/img1.png",
-                    "https://via.placeholder.com/600x300.png?text=AR教育2",
-                    "https://via.placeholder.com/600x300.png?text=AR教育3"
-                ]
-            },
-            {
-                title: "SweetLine 妊娠護航Bot",
-                description: "SweetLine是一款智慧孕婦健康管理 Linebot，提供全方位的孕期健康管理服務，包括智能健康管理、專業健康諮詢、情緒分析和社交分享等功能，幫助孕婦監測健康狀況，預防妊娠糖尿病、產前憂鬱症等疾病。",
-                images: [
-                    "templates/SweetLine/img1.png",
-                    "https://via.placeholder.com/600x300.png?text=AI助理2",
-                    "https://via.placeholder.com/600x300.png?text=AI助理3"
-                ]
-            },
-            {
-                title: "綠能管理系統",
-                description: "我們的綠能管理系統旨在幫助企業和家庭優化能源使用，減少碳排放。該系統使用智能傳感器和人工智能算法來分析能源消耗模式，並提供實時優化建議。它還支持可再生能源的整合，幫助用戶最大化太陽能等清潔能源的使用，從而降低能源成本並促進可持續發展。",
-                images: [
-                    "https://via.placeholder.com/600x300.png?text=綠能系統1",
-                    "https://via.placeholder.com/600x300.png?text=綠能系統2",
-                    "https://via.placeholder.com/600x300.png?text=綠能系統3"
-                ]
-            }
-        ];
+      const projects = [
+        {
+          title: "HealthyLife",
+          description:
+            "HealthyLife DALY智能健康管理APP，導入創新的個人化DALY指數計算，不僅關注用戶當前的健康數據，還能預測健康狀況的發展趨勢。這個應用程序使用先進的人工智能算法來分析用戶的生活方式、飲食習慣和運動模式，從而提供個性化的健康建議和預防策略。",
+          images: [
+            "templates/HealthyLife/img1.png",
+            "https://via.placeholder.com/600x300.png?text=HealthyLife2",
+            "https://via.placeholder.com/600x300.png?text=HealthyLife3",
+          ],
+          video: "https://www.youtube.com/embed/tkVHM2rVTbE",
+        },
+        {
+          title: "健康小管家",
+          description:
+            "健康小管家 ，專為提高慢性病患的藥物治療遵從性而設計。透過先進的技術，自動識別和提取藥物資訊，簡化了服藥提醒的設定過程。為用戶提供藥物存量追蹤、健康諮詢，以及個性化的健康報告，強化用藥正確性與自我健康管理。此外，健康小管家還支援語音轉文字功能，讓用戶能夠方便地記錄醫師的建議和創建就診筆記，進而促進醫患間的溝通。其授權分享功能也讓照護者能夠輕鬆獲得患者的健康狀況更新，打造多方共贏局面。",
+          images: [
+            "templates/健康小管家/img1.png",
+            "https://via.placeholder.com/600x300.png?text=區塊鏈2",
+            "https://via.placeholder.com/600x300.png?text=區塊鏈3",
+          ],
+        },
+        {
+          title: "美麗新生機",
+          description:
+            "我們的AR教育平台將擴增實境技術融入教育領域，為學生提供沉浸式的學習體驗。通過這個平台，學生可以與3D模型互動，進行虛擬實驗，或者探索歷史場景。這種創新的教學方式不僅能提高學生的興趣和參與度，還能幫助他們更好地理解和記憶複雜的概念。",
+          images: [
+            "templates/美麗新生機/img1.png",
+            "https://via.placeholder.com/600x300.png?text=AR教育2",
+            "https://via.placeholder.com/600x300.png?text=AR教育3",
+          ],
+        },
+        {
+          title: "SweetLine 妊娠護航Bot",
+          description:
+            "SweetLine是一款智慧孕婦健康管理 Linebot，提供全方位的孕期健康管理服務，包括智能健康管理、專業健康諮詢、情緒分析和社交分享等功能，幫助孕婦監測健康狀況，預防妊娠糖尿病、產前憂鬱症等疾病。",
+          images: [
+            "templates/SweetLine/img1.png",
+            "https://via.placeholder.com/600x300.png?text=AI助理2",
+            "https://via.placeholder.com/600x300.png?text=AI助理3",
+          ],
+        },
+        {
+          title: "智慧飲食配",
+          description:
+            "全球營養報告指出，飲食不良是影響民眾健康的主因之一，平均每五人就有一人因飲食不良死亡。因此團隊推出『智慧飲食配-為您量身打造的健康餐盒外送服務』，從飲食調整著手，強化上班族們的健康福祉，藉由創新AI技術協助上班族群進行食品營養成分辨識，並進一步提供個人化的營養餐點與外送服務，同時也能配合國家的相關政策，落實SDGs目標3——良好的健康福祉。",
+          images: [
+            "templates/智慧飲食配/img1.png",
+            "templates/智慧飲食配/img2.png",
+            "https://via.placeholder.com/600x300.png?text=綠能系統3",
+          ],
+        },
+      ];
 
-        let currentProject = 0;
-let currentMediaIndex = 0;
+      let currentProject = 0;
+      let currentMediaIndex = 0;
 
-function openModal(projectIndex) {
-    currentProject = projectIndex;
-    currentMediaIndex = 0;
-    modalTitle.textContent = projects[projectIndex].title;
-    modalDescription.textContent = projects[projectIndex].description;
-    updateMediaDisplay();
-    modal.style.display = "block";
-}
+      function openModal(projectIndex) {
+        currentProject = projectIndex;
+        currentMediaIndex = 0;
+        modalTitle.textContent = projects[projectIndex].title;
+        modalDescription.textContent = projects[projectIndex].description;
+        updateMediaDisplay();
+        modal.style.display = "block";
+      }
 
-function updateMediaDisplay() {
-    const project = projects[currentProject];
-    const isVideo = currentMediaIndex === project.images.length;
-    
-    document.getElementById("modalImage").style.display = isVideo ? "none" : "block";
-    document.getElementById("modalVideo").style.display = isVideo ? "block" : "none";
-    
-    if (isVideo) {
-        document.getElementById("modalVideo").src = project.video;
-    } else {
-        document.getElementById("modalImage").src = project.images[currentMediaIndex];
-    }
-}
+      function updateMediaDisplay() {
+        const project = projects[currentProject];
+        const isVideo = currentMediaIndex === project.images.length;
 
-function changeMedia(direction) {
-    const project = projects[currentProject];
-    const totalMedia = project.images.length + (project.video ? 1 : 0);
-    
-    currentMediaIndex += direction;
-    if (currentMediaIndex >= totalMedia) currentMediaIndex = 0;
-    if (currentMediaIndex < 0) currentMediaIndex = totalMedia - 1;
-    
-    updateMediaDisplay();
-}
+        document.getElementById("modalImage").style.display = isVideo
+          ? "none"
+          : "block";
+        document.getElementById("modalVideo").style.display = isVideo
+          ? "block"
+          : "none";
 
-// 當模態框關閉時，停止影片播放
-closeBtn.onclick = function() {
-    modal.style.display = "none";
-    document.getElementById("modalVideo").src = "";
-}
+        if (isVideo) {
+          document.getElementById("modalVideo").src = project.video;
+        } else {
+          document.getElementById("modalImage").src =
+            project.images[currentMediaIndex];
+        }
+      }
 
-window.onclick = function(event) {
-    if (event.target == modal) {
+      function changeMedia(direction) {
+        const project = projects[currentProject];
+        const totalMedia = project.images.length + (project.video ? 1 : 0);
+
+        currentMediaIndex += direction;
+        if (currentMediaIndex >= totalMedia) currentMediaIndex = 0;
+        if (currentMediaIndex < 0) currentMediaIndex = totalMedia - 1;
+
+        updateMediaDisplay();
+      }
+
+      // 當模態框關閉時，停止影片播放
+      closeBtn.onclick = function () {
         modal.style.display = "none";
         document.getElementById("modalVideo").src = "";
-    }
-}
+      };
+
+      window.onclick = function (event) {
+        if (event.target == modal) {
+          modal.style.display = "none";
+          document.getElementById("modalVideo").src = "";
+        }
+      };
+      function openModal(projectIndex) {
+        currentProject = projectIndex;
+        currentMediaIndex = 0;
+        modalTitle.textContent = projects[projectIndex].title;
+        modalDescription.textContent = projects[projectIndex].description;
+        updateMediaDisplay();
+        modal.style.display = "block";
+        document.body.classList.add("modal-open");
+      }
+
+      closeBtn.onclick = function () {
+        modal.style.display = "none";
+        document.getElementById("modalVideo").src = "";
+        document.body.classList.remove("modal-open");
+      };
+
+      window.onclick = function (event) {
+        if (event.target == modal) {
+          modal.style.display = "none";
+          document.getElementById("modalVideo").src = "";
+          document.body.classList.remove("modal-open");
+        }
+      };
     </script>
-</body>
+  </body>
 </html>
